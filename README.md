@@ -24,16 +24,26 @@ Currently, the default Kernel `7.0.0` on Ubuntu 26.04 (from a clean ISO install)
 
 ⚠️ **The Trade-off:** Kernel 6.8 might lack hardware support (Wi-Fi, Audio) for some very new laptops (late 2024 - 2025). You have to weigh what you need more: "Hibernation" or "The latest hardware compatibility"!
 
-**🛠️ How to install Kernel 6.8 for clean ISO installs:**
-1. Install the Mainline Kernel tool:
-```bash
-sudo add-apt-repository ppa:cappelikan/ppa -y
-sudo apt update && sudo apt install mainline -y
-```
-2. Open the **"Ubuntu Mainline Kernel Installer"** app from your menu.
-3. Find and select version 6.8.x (e.g., `6.8.12` or the latest in the 6.8 branch) -> Click **"Install"**.
-4. Reboot your machine. At the GRUB menu -> Select **"Advanced options for Ubuntu"** -> Boot into **"Linux 6.8.x-generic"**.
+**🛠️ How to install Kernel 6.8 (100% Bulletproof via Official Repos):**
+Since the Mainline tool frequently suffers from server outages (503 errors), the most reliable method is to temporarily add the official Ubuntu 24.04 (Noble) repository, install its default 6.8 kernel, and then remove the repo:
 
+1. Open your Terminal and run these commands sequentially:
+```bash
+# Add the official Ubuntu 24.04 repository
+echo "deb [http://archive.ubuntu.com/ubuntu/](http://archive.ubuntu.com/ubuntu/) noble main restricted" | sudo tee /etc/apt/sources.list.d/noble-kernel.list
+
+# Update package lists
+sudo apt update
+
+# Install the native Kernel 6.8.0-31
+sudo apt install linux-image-6.8.0-31-generic linux-headers-6.8.0-31-generic linux-modules-extra-6.8.0-31-generic -y
+
+# Remove the repository to prevent future update conflicts
+sudo rm /etc/apt/sources.list.d/noble-kernel.list
+sudo apt update
+```
+2. Reboot your machine.
+3. At the GRUB menu -> Select **"Advanced options for Ubuntu"** -> Boot into **"Linux 6.8.0-31-generic"**.
 ---
 
 ## 🛠️ Step-by-Step Fix:
