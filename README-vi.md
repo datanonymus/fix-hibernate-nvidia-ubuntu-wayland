@@ -24,16 +24,26 @@ Hiện tại, bản Kernel `7.0.0` mặc định của Ubuntu 26.04 (cài từ f
 
 ⚠️ **Sự đánh đổi:** Kernel 6.8 có thể không nhận diện đủ driver (Wi-Fi, Audio) cho một số Laptop đời quá mới (cuối 2024 - 2025). Anh em hãy cân nhắc xem mình cần "Hibernate" hay cần "Hỗ trợ phần cứng mới nhất" nhé!
 
-**🛠️ Hướng dẫn cài Kernel 6.8 cho máy cài ISO sạch:**
-1. Cài đặt công cụ Mainline Kernel:
-```bash
-sudo add-apt-repository ppa:cappelikan/ppa -y
-sudo apt update && sudo apt install mainline -y
-```
-2. Mở ứng dụng **"Ubuntu Mainline Kernel Installer"** trong menu.
-3. Tìm và chọn phiên bản 6.8.x (khuyến nghị `6.8.12` hoặc mới nhất của nhánh 6.8) -> Bấm **"Install"**.
-4. Khởi động lại máy, ở màn hình GRUB -> Chọn **"Advanced options for Ubuntu"** -> Boot vào dòng **"Linux 6.8.x-generic"**.
+**🛠️ Hướng dẫn cài Kernel 6.8 (Cách an toàn 100% từ kho Official):**
+Do công cụ Mainline hay bị lỗi máy chủ (503), cách tốt nhất là "mượn" trực tiếp kho lưu trữ gốc của bản Ubuntu 24.04 (Noble) để cài Kernel 6.8 nguyên bản, sau đó gỡ bỏ để không ảnh hưởng hệ thống:
 
+1. Mở Terminal và chạy tuần tự các lệnh sau:
+```bash
+# Thêm kho lưu trữ của Ubuntu 24.04
+echo "deb [http://archive.ubuntu.com/ubuntu/](http://archive.ubuntu.com/ubuntu/) noble main restricted" | sudo tee /etc/apt/sources.list.d/noble-kernel.list
+
+# Cập nhật danh sách gói
+sudo apt update
+
+# Cài đặt Kernel 6.8.0-31 gốc
+sudo apt install linux-image-6.8.0-31-generic linux-headers-6.8.0-31-generic linux-modules-extra-6.8.0-31-generic -y
+
+# Xóa kho lưu trữ vừa thêm để hệ thống sạch sẽ
+sudo rm /etc/apt/sources.list.d/noble-kernel.list
+sudo apt update
+```
+2. Khởi động lại máy.
+3. Ở màn hình GRUB -> Chọn **"Advanced options for Ubuntu"** -> Boot vào dòng **"Linux 6.8.0-31-generic"**.
 ---
 
 ## 🛠️ Các bước thực hiện:
